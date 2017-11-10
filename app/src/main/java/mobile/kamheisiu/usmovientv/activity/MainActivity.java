@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.io.IOException;
+
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
@@ -35,59 +37,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GetMoviesList> call, Throwable t) {
                 Log.d(TAG, "onFailure: ");
-                t.printStackTrace();
+                handleRequestFailure(t);
             }
         });
+    }
 
-        moviesServices.getPopular().enqueue(new Callback<GetMoviesList>() {
-            @Override
-            public void onResponse(Call<GetMoviesList> call, Response<GetMoviesList> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "getPopular size(): " + response.body().getMovies().size());
-                } else {
-                    Log.d(TAG, "Not successful");
-                }
-            }
+    private void handleRequestFailure(Throwable t) {
+        // When the Throwable passed to the failure callback is an IOException,
+        // this means that it was a network problem (socket timeout, unknown host, etc.).
+        // Any other exception means something broke either in serializing/deserializing the data
+        // or it's a configuration problem
+        if (t instanceof IOException) {
+            handleRequestNetworkError(t);
+        } else {
+            handleRequestNonNetworkError(t);
+        }
+    }
 
-            @Override
-            public void onFailure(Call<GetMoviesList> call, Throwable t) {
-                Log.d(TAG, "onFailure: ");
-                t.printStackTrace();
-            }
-        });
+    private void handleRequestNetworkError(Throwable t) {
+        Log.d(TAG, "handleRequestNetworkError: " + t.getMessage());
+    }
 
-        moviesServices.getTopRated().enqueue(new Callback<GetMoviesList>() {
-            @Override
-            public void onResponse(Call<GetMoviesList> call, Response<GetMoviesList> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "getTopRated size(): " + response.body().getMovies().size());
-                } else {
-                    Log.d(TAG, "Not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetMoviesList> call, Throwable t) {
-                Log.d(TAG, "onFailure: ");
-                t.printStackTrace();
-            }
-        });
-
-        moviesServices.getUpComing().enqueue(new Callback<GetMoviesList>() {
-            @Override
-            public void onResponse(Call<GetMoviesList> call, Response<GetMoviesList> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "getUpComing size(): " + response.body().getMovies().size());
-                } else {
-                    Log.d(TAG, "Not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetMoviesList> call, Throwable t) {
-                Log.d(TAG, "onFailure: ");
-                t.printStackTrace();
-            }
-        });
+    private void handleRequestNonNetworkError(Throwable t) {
+        Log.d(TAG, "handleRequestNonNetworkError: " + t.getMessage());
     }
 }

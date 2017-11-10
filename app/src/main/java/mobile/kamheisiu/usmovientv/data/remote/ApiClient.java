@@ -1,6 +1,9 @@
 package mobile.kamheisiu.usmovientv.data.remote;
 
+import android.util.Log;
+
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -19,16 +22,27 @@ public class ApiClient {
 
     private static OkHttpClient client = null;
 
+    private static void postResponseHandling(Response response) {
+        if (!response.isSuccessful()) {
+            Log.d("debug3", "postResponseHandling: ");
+        }
+    }
+
     public static Retrofit getClient(String baseUrl) {
         if (client == null) {
             client = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
                 .addInterceptor(chain -> {
                     Request request = chain.request();
                     HttpUrl url = request.url().newBuilder()
                             .addQueryParameter(ApiUtils.API_KEY_KEY,ApiUtils.API_KEY_VALUE)
                             .build();
                     request = request.newBuilder().url(url).build();
-                    return chain.proceed(request);
+
+                    Response response = chain.proceed(request);
+                    postResponseHandling(response);
+
+                    return response;
                 }).build();
 
         }
