@@ -8,6 +8,15 @@
         android:layout_height="match_parent"
         tools:context="mobile.kamheisiu.usmovientv.activity.MainActivity">
 
+        <RelativeLayout
+            android:id="@+id/container_view"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></RelativeLayout>
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"

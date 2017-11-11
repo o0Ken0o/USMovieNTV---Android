@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">USMovieNTV</string>
+
+    <!-- menu items -->
     <string name="menu_item_movie">Movies</string>
     <string name="menu_item_tv">TV Shows</string>
     <string name="menu_item_search">Search</string>
+
+    <!-- movies view pager tab items -->
+    <string name="movies_view_pager_now_playing">Now Playing</string>
+    <string name="movies_view_pager_popular">Popular</string>
+    <string name="movies_view_pager_top_rated">Top Rated</string>
+    <string name="movies_view_pager_upcoming">Upcoming</string>
 </resources>
