@@ -14,10 +14,10 @@ import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
 import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
+import mobile.kamheisiu.usmovientv.data.remote.CallBackWithLogging;
 import mobile.kamheisiu.usmovientv.databinding.ActivityMainBinding;
 import mobile.kamheisiu.usmovientv.fragment.MoviesViewPagerFragment;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
 
         binding.bottomNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+        getNowPlayingMovies();
     }
 
     private boolean onNavigationItemSelected(MenuItem item) {
@@ -72,9 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void getNowPlayingMovies() {
         MoviesServices moviesServices = new ApiUtils().getMoviesServices();
-        moviesServices.getNowPlaying().enqueue(new Callback<GetMoviesList>() {
+        moviesServices.getNowPlaying().enqueue(new CallBackWithLogging<GetMoviesList>(GetMoviesList.class.getName()) {
             @Override
             public void onResponse(Call<GetMoviesList> call, Response<GetMoviesList> response) {
+
+                super.onResponse(call, response);
+
                 if (response.isSuccessful()) {
                     Log.d(TAG, "getNowPlaying size(): " + response.body().getMovies().size());
                 } else {
@@ -84,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GetMoviesList> call, Throwable t) {
+
+                super.onFailure(call, t);
+
                 Log.d(TAG, "onFailure: ");
                 handleRequestFailure(t);
             }
