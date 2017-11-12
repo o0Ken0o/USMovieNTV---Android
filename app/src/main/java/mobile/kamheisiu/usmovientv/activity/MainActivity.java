@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
-        getNowPlayingMovies();
     }
 
     private boolean onNavigationItemSelected(MenuItem item) {
@@ -72,49 +71,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getNowPlayingMovies() {
-        MoviesServices moviesServices = new ApiUtils().getMoviesServices();
-        moviesServices.getNowPlaying().enqueue(new CallBackWithLogging<GetMoviesList>(GetMoviesList.class.getName()) {
-            @Override
-            public void onResponse(Call<GetMoviesList> call, Response<GetMoviesList> response) {
-
-                super.onResponse(call, response);
-
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "getNowPlaying size(): " + response.body().getMovies().size());
-                } else {
-                    Log.d(TAG, "Not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetMoviesList> call, Throwable t) {
-
-                super.onFailure(call, t);
-
-                Log.d(TAG, "onFailure: ");
-                handleRequestFailure(t);
-            }
-        });
-    }
-
-    private void handleRequestFailure(Throwable t) {
-        // When the Throwable passed to the failure callback is an IOException,
-        // this means that it was a network problem (socket timeout, unknown host, etc.).
-        // Any other exception means something broke either in serializing/deserializing the data
-        // or it's a configuration problem
-        if (t instanceof IOException) {
-            handleRequestNetworkError(t);
-        } else {
-            handleRequestNonNetworkError(t);
-        }
-    }
-
-    private void handleRequestNetworkError(Throwable t) {
-        Log.d(TAG, "handleRequestNetworkError: " + t.getMessage());
-    }
-
-    private void handleRequestNonNetworkError(Throwable t) {
-        Log.d(TAG, "handleRequestNonNetworkError: " + t.getMessage());
-    }
 }
