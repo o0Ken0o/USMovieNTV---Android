@@ -11,6 +11,7 @@
     </data>
 
     <RelativeLayout
+        android:onClick="@{movievm.onItemClick}"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
         android:paddingTop="1dp"

@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +49,15 @@ public class ItemMovieViewModel extends BaseObservable {
                     .dontAnimate()
                     .dontTransform())
                 .into(view);
+    }
+
+    public View.OnClickListener onItemClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("debug3", "onItemClick: " + mMovie.getId());
+            }
+        };
     }
 
     public String getReleaseDate() {
