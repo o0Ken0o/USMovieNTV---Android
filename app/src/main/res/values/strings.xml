@@ -11,4 +11,13 @@
     <string name="movies_view_pager_popular">Popular</string>
     <string name="movies_view_pager_top_rated">Top Rated</string>
     <string name="movies_view_pager_upcoming">Upcoming</string>
+
+    <!-- the details of a movie -->
+    <string name="movie_details_title">Title:</string>
+    <string name="movie_details_genres">Genres:</string>
+    <string name="movie_details_languages">Languages:</string>
+    <string name="movie_details_companies">Companies:</string>
+    <string name="movie_details_countries">Countries:</string>
+    <string name="movie_details_release_date">Release Date:</string>
+    <string name="movie_details_runtime">Runtime:</string>
 </resources>

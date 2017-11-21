@@ -1,6 +1,7 @@
 package mobile.kamheisiu.usmovientv.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import mobile.kamheisiu.usmovientv.R;
+import mobile.kamheisiu.usmovientv.activity.MovieDetailsActivity;
 import mobile.kamheisiu.usmovientv.data.model.Movie;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
 
@@ -33,7 +35,6 @@ public class ItemMovieViewModel extends BaseObservable {
 
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String relativeUrl) {
-        // TODO: add a placeholder for the image view later on
         Log.d("debug3", "loadImage: " + relativeUrl);
 
         StringBuilder urlBuilder = new StringBuilder();
@@ -55,7 +56,9 @@ public class ItemMovieViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("debug3", "onItemClick: " + mMovie.getId());
+                Intent intent = new Intent(mContext, MovieDetailsActivity.class);
+                intent.putExtra(MovieDetailsActivity.MOVIE_ID_KEY, mMovie.getId());
+                mContext.startActivity(intent);
             }
         };
     }
