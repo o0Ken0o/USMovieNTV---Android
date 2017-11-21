@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.data.model.Movie;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
 
@@ -42,6 +43,7 @@ public class ItemMovieViewModel extends BaseObservable {
         Glide.with(view.getContext())
                 .load(urlBuilder.toString())
                 .apply(new RequestOptions()
+                    .placeholder(R.drawable.movietv_clear_bg)
                     .centerCrop()
                     .dontAnimate()
                     .dontTransform())
