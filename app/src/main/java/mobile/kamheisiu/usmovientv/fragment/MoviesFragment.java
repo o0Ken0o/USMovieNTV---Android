@@ -1,5 +1,6 @@
 package mobile.kamheisiu.usmovientv.fragment;
 
+import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,9 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.io.IOException;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.adapter.MoviesFragmentAdapter;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
@@ -33,6 +39,7 @@ public class MoviesFragment extends Fragment {
     public static final String TITLE_KEY = "TITLE_KEY";
     private String title;
 
+    // TODO: subclass the Observer class of RxJava2 to have global error logging and google if this is the right way to do it
     // TODO: add a loader while fetching data from the server. (use use RxJava to show or hide it)
     // TODO: add a placeholder for loading image
 
@@ -66,35 +73,35 @@ public class MoviesFragment extends Fragment {
 
     private void getNowPlayingMovies() {
         MoviesServices moviesServices = new ApiUtils().getMoviesServices();
-        moviesServices.getNowPlaying().enqueue(new CallBackWithLogging<GetMoviesList>(GetMoviesList.class.getName()) {
-            @Override
-            public void onResponse(Call<GetMoviesList> call, Response<GetMoviesList> response) {
 
-                super.onResponse(call, response);
+        moviesServices.getNowPlaying().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<GetMoviesList>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
+                    }
 
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "getNowPlaying size(): " + response.body().getMovies().size());
+                    @Override
+                    public void onNext(GetMoviesList getMoviesList) {
+                        MoviesFragmentAdapter adapter = new MoviesFragmentAdapter(MoviesFragment.this.getContext(), getMoviesList.getMovies());
+                        binding.recyclerView.setAdapter(adapter);
 
-                    MoviesFragmentAdapter adapter = new MoviesFragmentAdapter(MoviesFragment.this.getContext(), response.body().getMovies());
-                    binding.recyclerView.setAdapter(adapter);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(MoviesFragment.this.getContext(), 3);
+                        binding.recyclerView.setLayoutManager(gridLayoutManager);
+                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
+                    }
 
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(MoviesFragment.this.getContext(), 3);
-                    binding.recyclerView.setLayoutManager(gridLayoutManager);
+                    @Override
+                    public void onError(Throwable e) {
+                        handleRequestFailure(e);
+                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
+                    }
 
-                } else {
-                    Log.d(TAG, "Not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetMoviesList> call, Throwable t) {
-
-                super.onFailure(call, t);
-
-                Log.d(TAG, "onFailure: ");
-                handleRequestFailure(t);
-            }
-        });
+                    @Override
+                    public void onComplete() {
+                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
+                    }
+                });
     }
 
     private void handleRequestFailure(Throwable t) {

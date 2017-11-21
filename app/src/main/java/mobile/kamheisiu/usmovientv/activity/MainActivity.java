@@ -36,7 +36,13 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
 
         binding.bottomNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        addMoviesViewPager();
     }
 
     private boolean onNavigationItemSelected(MenuItem item) {

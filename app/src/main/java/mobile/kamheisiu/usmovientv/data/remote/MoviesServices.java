@@ -1,5 +1,6 @@
 package mobile.kamheisiu.usmovientv.data.remote;
 
+import io.reactivex.Observable;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -10,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface MoviesServices {
     @GET("movie/now_playing")
-    Call<GetMoviesList> getNowPlaying();
+    Observable<GetMoviesList> getNowPlaying();
 
     @GET("movie/popular")
     Call<GetMoviesList> getPopular();
