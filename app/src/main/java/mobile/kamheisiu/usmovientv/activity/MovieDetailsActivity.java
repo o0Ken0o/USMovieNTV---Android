@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.data.model.MovieDetails;
@@ -18,6 +21,7 @@ import mobile.kamheisiu.usmovientv.viewmodel.MovieDetailsActivityViewModel;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    private MovieDetailsActivityViewModel viewModel;
     private ActivityMovieDetailsBinding binding;
     private int mMovieId;
     public static final String MOVIE_ID_KEY = "MOVIE_ID_KEY";
@@ -32,36 +36,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
             mMovieId = intent.getIntExtra(MOVIE_ID_KEY, -1);
         }
 
-        if (mMovieId != -1) {
-            getMovieDetails();
-        }
+        binding.progressSpinner.setVisibility(View.VISIBLE);
+        binding.contentScrollView.setVisibility(View.INVISIBLE);
+
+        viewModel = new MovieDetailsActivityViewModel(MovieDetailsActivity.this, mMovieId);
+        viewModel.getIsDataReady().subscribe(this::displayData);
     }
 
-    private void getMovieDetails() {
-        MoviesServices moviesServices = new ApiUtils().getMoviesServices();
+    public void displayData(Boolean isDataReady) {
+        if (isDataReady) {
+            binding.setMdavm(viewModel);
+            binding.contentScrollView.setVisibility(View.VISIBLE);
+        }
 
-        moviesServices.getMovieDetails(mMovieId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieDetails>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(MovieDetails movieDetails) {
-                        MovieDetailsActivityViewModel viewModel = new MovieDetailsActivityViewModel(movieDetails, MovieDetailsActivity.this);
-                        binding.setMdavm(viewModel);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        binding.progressSpinner.setVisibility(View.GONE);
     }
 }

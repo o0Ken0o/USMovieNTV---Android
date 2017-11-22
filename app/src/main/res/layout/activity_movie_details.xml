@@ -10,12 +10,13 @@
             type="mobile.kamheisiu.usmovientv.viewmodel.MovieDetailsActivityViewModel"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@android:color/black">
 
         <ScrollView
+            android:id="@+id/content_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/black">
@@ -355,5 +356,14 @@
 
         </ScrollView>
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            style="@android:style/Widget.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tool:visibility="visible"/>
+
+    </RelativeLayout>
 </layout>

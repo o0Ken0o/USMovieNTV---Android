@@ -11,7 +11,14 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import mobile.kamheisiu.usmovientv.R;
+import mobile.kamheisiu.usmovientv.activity.MovieDetailsActivity;
 import mobile.kamheisiu.usmovientv.data.model.Genre;
 import mobile.kamheisiu.usmovientv.data.model.Movie;
 import mobile.kamheisiu.usmovientv.data.model.MovieDetails;
@@ -19,6 +26,7 @@ import mobile.kamheisiu.usmovientv.data.model.ProductionCompany;
 import mobile.kamheisiu.usmovientv.data.model.ProductionCountry;
 import mobile.kamheisiu.usmovientv.data.model.SpokenLanguage;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
+import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
 
 /**
  * Created by kamheisiu on 21/11/2017.
@@ -26,12 +34,47 @@ import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
 
 public class MovieDetailsActivityViewModel extends BaseObservable {
 
-    private MovieDetails mMovieDetails;
     private Context mContext;
+    private int mMovieId;
+    private MovieDetails mMovieDetails;
+    private PublishSubject<Boolean> isDataReady = PublishSubject.create();
 
-    public MovieDetailsActivityViewModel(MovieDetails movieDetails, Context context) {
-        mMovieDetails = movieDetails;
+    public MovieDetailsActivityViewModel(Context context, int movieId) {
         mContext = context;
+        mMovieId = movieId;
+        getMovieDetails();
+    }
+
+    private void getMovieDetails() {
+        MoviesServices moviesServices = new ApiUtils().getMoviesServices();
+
+        moviesServices.getMovieDetails(mMovieId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieDetails>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieDetails movieDetails) {
+                        mMovieDetails = movieDetails;
+                        isDataReady.onNext(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        isDataReady.onNext(false);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public PublishSubject<Boolean> getIsDataReady() {
+        return isDataReady;
     }
 
     public String getPopularity() {
