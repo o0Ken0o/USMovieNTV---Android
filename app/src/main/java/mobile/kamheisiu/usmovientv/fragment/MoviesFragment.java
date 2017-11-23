@@ -18,6 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.adapter.MoviesFragmentAdapter;
 import mobile.kamheisiu.usmovientv.data.model.Movie;
+import mobile.kamheisiu.usmovientv.data.remote.MoviesRequestResponse;
 import mobile.kamheisiu.usmovientv.databinding.FragmentMoviesBinding;
 import mobile.kamheisiu.usmovientv.viewmodel.MoviesFragmentViewModel;
 
@@ -97,7 +98,7 @@ public class MoviesFragment extends Fragment {
     }
 
     private void subscribeToGetMoviesResponse(boolean isCreateNewVM) {
-        Consumer<MoviesFragmentViewModel.MoviesRequestResponse> onNext = moviesRequestResponse -> { onReceiveResponse(moviesRequestResponse); };
+        Consumer<MoviesRequestResponse> onNext = moviesRequestResponse -> { onReceiveResponse(moviesRequestResponse); };
 
         if (isCreateNewVM) {
             mMoviesFragmentViewModel = new MoviesFragmentViewModel();
@@ -109,7 +110,7 @@ public class MoviesFragment extends Fragment {
                 .subscribe(onNext);
     }
 
-    private void onReceiveResponse(MoviesFragmentViewModel.MoviesRequestResponse response) {
+    private void onReceiveResponse(MoviesRequestResponse response) {
         binding.spinnerLoader.setVisibility(View.INVISIBLE);
         binding.swipeRefreshLayout.setEnabled(true);
 

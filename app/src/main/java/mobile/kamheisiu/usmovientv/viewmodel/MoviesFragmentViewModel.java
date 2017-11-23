@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
+import mobile.kamheisiu.usmovientv.data.remote.MoviesRequestResponse;
 import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
 
 /**
@@ -19,36 +20,6 @@ import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
  */
 
 public class MoviesFragmentViewModel extends BaseObservable {
-
-    public class MoviesRequestResponse {
-        boolean isSuccessful;
-        boolean isRefresh;
-        GetMoviesList mGetMoviesList;
-        Throwable mThrowable;
-
-        public MoviesRequestResponse(boolean isSuccessful, GetMoviesList getMoviesList, Throwable throwable, boolean isRefresh) {
-            this.isSuccessful = isSuccessful;
-            mGetMoviesList = getMoviesList;
-            mThrowable = throwable;
-            this.isRefresh = isRefresh;
-        }
-
-        public boolean isSuccessful() {
-            return isSuccessful;
-        }
-
-        public GetMoviesList getGetMoviesList() {
-            return mGetMoviesList;
-        }
-
-        public Throwable getThrowable() {
-            return mThrowable;
-        }
-
-        public boolean isRefresh() {
-            return isRefresh;
-        }
-    }
 
     private MoviesServices moviesServices;
     private GetMoviesList mGetMoviesList;
