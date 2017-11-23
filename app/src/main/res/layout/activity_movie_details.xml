@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mdavm"
+            type="mobile.kamheisiu.usmovientv.viewmodel.MovieDetailsActivityViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+
+        <ScrollView
+            android:id="@+id/content_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/left_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".05"/>
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/right_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".95"/>
+
+                <ImageView
+                    android:id="@+id/poster"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:image="@{mdavm.posterPath}"
+                    app:layout_constraintDimensionRatio="20:23"
+                    app:layout_constraintLeft_toLeftOf="@+id/left_guideline"
+                    app:layout_constraintRight_toRightOf="@+id/right_guideline"/>
+
+                <LinearLayout
+                    android:id="@+id/rating_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:weightSum="3"
+                    app:layout_constraintTop_toBottomOf="@+id/poster">
+
+                    <TextView
+                        android:id="@+id/popularity_txt_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{mdavm.popularity}"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        tool:text="Hello"/>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/count_average"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{mdavm.voteAverage}"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        tool:text="Hello"/>
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/vote_average"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{mdavm.voteCount}"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        tool:text="Hello"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/info_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_bar">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_title"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/title_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.title}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="Justice League"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_genres"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/genres_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.genres}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="Action, Adventure, Fantasy, Science Fiction"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_languages"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/languages_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.languages}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="English"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_companies"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/companies_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.companies}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="DC Comics, Kennedy Miller Productions, Lin Pictures, Warner Bros., DC Entertainment"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_countries"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/countries_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.countries}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="United States of America"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_release_date"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/release_date_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.releaseDate}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="2017-11-15"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/movie_details_runtime"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp"/>
+
+                        <TextView
+                            android:id="@+id/runtime_value"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@{mdavm.runtime}"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            tool:text="120"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            style="@android:style/Widget.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tool:visibility="visible"/>
+
+    </RelativeLayout>
+</layout>

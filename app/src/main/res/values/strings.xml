@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">USMovieNTV</string>
+
+    <!-- menu items -->
+    <string name="menu_item_movie">Movies</string>
+    <string name="menu_item_tv">TV Shows</string>
+    <string name="menu_item_search">Search</string>
+
+    <!-- RESTful call custom error messages -->
+    <string name="restful_call_try_again">There is an error. Please try again later.</string>
+
+    <!-- movies view pager tab items -->
+    <string name="movies_view_pager_now_playing">Now Playing</string>
+    <string name="movies_view_pager_popular">Popular</string>
+    <string name="movies_view_pager_top_rated">Top Rated</string>
+    <string name="movies_view_pager_upcoming">Upcoming</string>
+
+    <!-- the details of a movie -->
+    <string name="movie_details_title">Title:</string>
+    <string name="movie_details_genres">Genres:</string>
+    <string name="movie_details_languages">Languages:</string>
+    <string name="movie_details_companies">Companies:</string>
+    <string name="movie_details_countries">Countries:</string>
+    <string name="movie_details_release_date">Release Date:</string>
+    <string name="movie_details_runtime">Runtime:</string>
 </resources>
