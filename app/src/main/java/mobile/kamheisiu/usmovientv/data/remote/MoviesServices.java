@@ -16,13 +16,13 @@ public interface MoviesServices {
     Observable<GetMoviesList> getNowPlaying();
 
     @GET("movie/popular")
-    Call<GetMoviesList> getPopular();
+    Observable<GetMoviesList> getPopular();
 
     @GET("movie/top_rated")
-    Call<GetMoviesList> getTopRated();
+    Observable<GetMoviesList> getTopRated();
 
     @GET("movie/upcoming")
-    Call<GetMoviesList> getUpComing();
+    Observable<GetMoviesList> getUpComing();
 
     @GET("movie/{id}")
     Observable<MovieDetails> getMovieDetails(@Path("id") int movieId);
