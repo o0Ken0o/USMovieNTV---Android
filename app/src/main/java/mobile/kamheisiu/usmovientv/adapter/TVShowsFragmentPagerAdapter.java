@@ -6,11 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.fragment.MoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.NowPlayingMoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.PopularMoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.TopRatedMoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.UpComingMoviesFragment;
+import mobile.kamheisiu.usmovientv.fragment.AiringTodayTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.TVShowsFragment;
 
 /**
  * Created by kamheisiu on 23/11/2017.
@@ -27,20 +24,20 @@ public class TVShowsFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        MoviesFragment fragment = new NowPlayingMoviesFragment();
+        TVShowsFragment fragment = new AiringTodayTVShowsFragment();
 
         switch (position) {
             case 0:
-                fragment = NowPlayingMoviesFragment.newInstance(mContext.getString(R.string.movies_view_pager_now_playing));
+                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_airing_today));
                 break;
             case 1:
-                fragment = NowPlayingMoviesFragment.newInstance(mContext.getString(R.string.movies_view_pager_now_playing));
+                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_on_the_air));
                 break;
             case 2:
-                fragment = NowPlayingMoviesFragment.newInstance(mContext.getString(R.string.movies_view_pager_now_playing));
+                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_popular));
                 break;
             case 3:
-                fragment = NowPlayingMoviesFragment.newInstance(mContext.getString(R.string.movies_view_pager_now_playing));
+                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_top_rated));
                 break;
         }
 
@@ -58,16 +55,16 @@ public class TVShowsFragmentPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                title =  mContext.getString(R.string.movies_view_pager_now_playing);
+                title =  mContext.getString(R.string.tv_shows_view_pager_airing_today);
                 break;
             case 1:
-                title =  mContext.getString(R.string.movies_view_pager_now_playing);
+                title =  mContext.getString(R.string.tv_shows_view_pager_on_the_air);
                 break;
             case 2:
-                title =  mContext.getString(R.string.movies_view_pager_now_playing);
+                title =  mContext.getString(R.string.tv_shows_view_pager_popular);
                 break;
             case 3:
-                title =  mContext.getString(R.string.movies_view_pager_now_playing);
+                title =  mContext.getString(R.string.tv_shows_view_pager_top_rated);
                 break;
         }
 

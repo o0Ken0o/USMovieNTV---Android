@@ -23,4 +23,10 @@
     <string name="movie_details_countries">Countries:</string>
     <string name="movie_details_release_date">Release Date:</string>
     <string name="movie_details_runtime">Runtime:</string>
+
+    <!-- tvShow view pager tab items -->
+    <string name="tv_shows_view_pager_airing_today">Airing Today</string>
+    <string name="tv_shows_view_pager_on_the_air">On The Air</string>
+    <string name="tv_shows_view_pager_popular">Popular</string>
+    <string name="tv_shows_view_pager_top_rated">Top Rated</string>
 </resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tvshowvm"
+            type="mobile.kamheisiu.usmovientv.viewmodel.ItemTVShowViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:onClick="@{tvshowvm.onItemClick}"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:id="@+id/movie_poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:image="@{tvshowvm.posterUrl}"/>
+
+        <TextView
+            android:background="@drawable/bg_movie_item"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:id="@+id/movie_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="2017-11-11"
+            android:layout_alignTop="@+id/movie_poster"
+            android:text="@{tvshowvm.releaseDate}"/>
+
+        <TextView
+            android:background="@drawable/bg_movie_item"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            tools:text="360.11"
+            android:id="@+id/movie_popularity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/movie_poster"
+            android:text="@{tvshowvm.popularity}"/>
+
+    </RelativeLayout>
+</layout>
