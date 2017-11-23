@@ -6,6 +6,9 @@
     <string name="menu_item_tv">TV Shows</string>
     <string name="menu_item_search">Search</string>
 
+    <!-- RESTful call custom error messages -->
+    <string name="restful_call_try_again">There is an error. Please try again later.</string>
+
     <!-- movies view pager tab items -->
     <string name="movies_view_pager_now_playing">Now Playing</string>
     <string name="movies_view_pager_popular">Popular</string>

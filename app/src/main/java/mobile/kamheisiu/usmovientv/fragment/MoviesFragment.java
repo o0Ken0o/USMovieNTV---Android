@@ -1,32 +1,25 @@
 package mobile.kamheisiu.usmovientv.fragment;
 
-import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import java.io.IOException;
+import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.adapter.MoviesFragmentAdapter;
-import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
-import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
-import mobile.kamheisiu.usmovientv.data.remote.CallBackWithLogging;
-import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
+import mobile.kamheisiu.usmovientv.data.model.Movie;
 import mobile.kamheisiu.usmovientv.databinding.FragmentMoviesBinding;
-import retrofit2.Call;
-import retrofit2.Response;
+import mobile.kamheisiu.usmovientv.viewmodel.MoviesFragmentViewModel;
 
 /**
  * Created by kamheisiu on 11/11/2017.
@@ -35,13 +28,14 @@ import retrofit2.Response;
 public class MoviesFragment extends Fragment {
 
     public static final String TAG = "MoviesFragment";
-    private FragmentMoviesBinding binding;
     public static final String TITLE_KEY = "TITLE_KEY";
+
+    private FragmentMoviesBinding binding;
     private String title;
 
+    private MoviesFragmentViewModel mMoviesFragmentViewModel;
+
     // TODO: subclass the Observer class of RxJava2 to have global error logging and google if this is the right way to do it
-    // TODO: add a loader while fetching data from the server. (use use RxJava to show or hide it)
-    // TODO: add a placeholder for loading image
 
     public static MoviesFragment newInstance(String title) {
         MoviesFragment fragment = new MoviesFragment();
@@ -67,60 +61,90 @@ public class MoviesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
-        getNowPlayingMovies();
+
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> { onRefresh(); });
+
+        mMoviesFragmentViewModel = new MoviesFragmentViewModel();
+
         return binding.getRoot();
     }
 
-    private void getNowPlayingMovies() {
-        MoviesServices moviesServices = new ApiUtils().getMoviesServices();
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        moviesServices.getNowPlaying().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GetMoviesList>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onNext(GetMoviesList getMoviesList) {
-                        MoviesFragmentAdapter adapter = new MoviesFragmentAdapter(MoviesFragment.this.getContext(), getMoviesList.getMovies());
-                        binding.recyclerView.setAdapter(adapter);
-
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(MoviesFragment.this.getContext(), 3);
-                        binding.recyclerView.setLayoutManager(gridLayoutManager);
-                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        handleRequestFailure(e);
-                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        binding.spinnerLoader.setVisibility(View.INVISIBLE);
-                    }
-                });
-    }
-
-    private void handleRequestFailure(Throwable t) {
-        // When the Throwable passed to the failure callback is an IOException,
-        // this means that it was a network problem (socket timeout, unknown host, etc.).
-        // Any other exception means something broke either in serializing/deserializing the data
-        // or it's a configuration problem
-        if (t instanceof IOException) {
-            handleRequestNetworkError(t);
-        } else {
-            handleRequestNonNetworkError(t);
+        if (mMoviesFragmentViewModel.getCurrentGetMoviesList() == null) {
+            showSpinnerOnly();
+            subscribeToGetMoviesResponse(true);
         }
     }
 
-    private void handleRequestNetworkError(Throwable t) {
-        Log.d(TAG, "handleRequestNetworkError: " + t.getMessage());
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mMoviesFragmentViewModel.getGetMoviesResponse().unsubscribeOn(Schedulers.io());
     }
 
-    private void handleRequestNonNetworkError(Throwable t) {
-        Log.d(TAG, "handleRequestNonNetworkError: " + t.getMessage());
+    private void showHideComponents(boolean ifSpinnerVisible, boolean ifErrorMsgVisible, boolean ifRecyclerViewVisible) {
+        binding.spinnerLoader.setVisibility(ifSpinnerVisible ? View.VISIBLE : View.INVISIBLE);
+        binding.errorMsg.setVisibility(ifErrorMsgVisible ? View.VISIBLE : View.INVISIBLE);
+        binding.recyclerView.setVisibility(ifRecyclerViewVisible ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void showSpinnerOnly() {
+        showHideComponents(true, false, false);
+    }
+
+    private void subscribeToGetMoviesResponse(boolean isCreateNewVM) {
+        Consumer<MoviesFragmentViewModel.MoviesRequestResponse> onNext = moviesRequestResponse -> { onReceiveResponse(moviesRequestResponse); };
+
+        if (isCreateNewVM) {
+            mMoviesFragmentViewModel = new MoviesFragmentViewModel();
+        }
+
+        mMoviesFragmentViewModel.getGetMoviesResponse()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext);
+    }
+
+    private void onReceiveResponse(MoviesFragmentViewModel.MoviesRequestResponse response) {
+        binding.spinnerLoader.setVisibility(View.INVISIBLE);
+        binding.swipeRefreshLayout.setEnabled(true);
+
+        if (response.isSuccessful()) {
+            showMoviesList(response.getGetMoviesList().getMovies());
+        } else {
+
+            if (response.isRefresh() && mMoviesFragmentViewModel.getCurrentGetMoviesList() != null) {
+                // we are already displaying a list
+                showHideComponents(false, false, true);
+                Toast.makeText(this.getContext(), getString(R.string.restful_call_try_again), Toast.LENGTH_SHORT).show();
+            } else {
+                showHideComponents(false, true, false);
+            }
+        }
+    }
+
+    private void showMoviesList(List<Movie> movies) {
+        MoviesFragmentAdapter adapter = new MoviesFragmentAdapter(MoviesFragment.this.getContext(), movies);
+        binding.recyclerView.setAdapter(adapter);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(MoviesFragment.this.getContext(), 3);
+        binding.recyclerView.setLayoutManager(gridLayoutManager);
+
+        showHideComponents(false, false, true);
+    }
+
+    private void onRefresh() {
+        mMoviesFragmentViewModel.getGetMoviesResponse().unsubscribeOn(Schedulers.io());
+
+        binding.swipeRefreshLayout.setRefreshing(false);
+        binding.swipeRefreshLayout.setEnabled(false);
+        mMoviesFragmentViewModel.onRefresh();
+
+        showSpinnerOnly();
+        subscribeToGetMoviesResponse(false);
     }
 }
