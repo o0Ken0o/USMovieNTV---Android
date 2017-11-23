@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.fragment.AiringTodayTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.OnTheAirTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.PopularTVShowsFragment;
 import mobile.kamheisiu.usmovientv.fragment.TVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.TopRatedTVShowsFragment;
 
 /**
  * Created by kamheisiu on 23/11/2017.
@@ -31,13 +34,13 @@ public class TVShowsFragmentPagerAdapter extends FragmentPagerAdapter {
                 fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_airing_today));
                 break;
             case 1:
-                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_on_the_air));
+                fragment = OnTheAirTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_on_the_air));
                 break;
             case 2:
-                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_popular));
+                fragment = PopularTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_popular));
                 break;
             case 3:
-                fragment = AiringTodayTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_top_rated));
+                fragment = TopRatedTVShowsFragment.newInstance(mContext.getString(R.string.tv_shows_view_pager_top_rated));
                 break;
         }
 
