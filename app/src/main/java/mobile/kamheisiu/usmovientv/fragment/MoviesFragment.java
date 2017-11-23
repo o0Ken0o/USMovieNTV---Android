@@ -26,7 +26,7 @@ import mobile.kamheisiu.usmovientv.viewmodel.MoviesFragmentViewModel;
  * Created by kamheisiu on 11/11/2017.
  */
 
-public class MoviesFragment extends Fragment {
+public abstract class MoviesFragment extends Fragment {
 
     public static final String TAG = "MoviesFragment";
     public static final String TITLE_KEY = "TITLE_KEY";
@@ -34,19 +34,7 @@ public class MoviesFragment extends Fragment {
     private FragmentMoviesBinding binding;
     private String title;
 
-    private MoviesFragmentViewModel mMoviesFragmentViewModel;
-
-    // TODO: subclass the Observer class of RxJava2 to have global error logging and google if this is the right way to do it
-
-    public static MoviesFragment newInstance(String title) {
-        MoviesFragment fragment = new MoviesFragment();
-
-        Bundle args = new Bundle();
-        args.putString(TITLE_KEY, title);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
+    protected MoviesFragmentViewModel mMoviesFragmentViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,10 +53,12 @@ public class MoviesFragment extends Fragment {
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> { onRefresh(); });
 
-        mMoviesFragmentViewModel = new MoviesFragmentViewModel();
+        initViewModel();
 
         return binding.getRoot();
     }
+
+    protected abstract void initViewModel();
 
     @Override
     public void onResume() {
@@ -101,7 +91,7 @@ public class MoviesFragment extends Fragment {
         Consumer<MoviesRequestResponse> onNext = moviesRequestResponse -> { onReceiveResponse(moviesRequestResponse); };
 
         if (isCreateNewVM) {
-            mMoviesFragmentViewModel = new MoviesFragmentViewModel();
+            initViewModel();
         }
 
         mMoviesFragmentViewModel.getGetMoviesResponse()

@@ -19,15 +19,15 @@ import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
  * Created by kamheisiu on 22/11/2017.
  */
 
-public class MoviesFragmentViewModel extends BaseObservable {
+public abstract class MoviesFragmentViewModel extends BaseObservable {
 
-    private MoviesServices moviesServices;
-    private GetMoviesList mGetMoviesList;
-    private PublishSubject<MoviesRequestResponse> mGetMoviesResponse = PublishSubject.create();
+    protected MoviesServices moviesServices;
+    protected GetMoviesList mGetMoviesList;
+    protected PublishSubject<MoviesRequestResponse> mGetMoviesResponse = PublishSubject.create();
 
     public MoviesFragmentViewModel() {
         moviesServices = new ApiUtils().getMoviesServices();
-        getNowPlayingMovies(false);
+        getMovies(false);
     }
 
     public PublishSubject<MoviesRequestResponse> getGetMoviesResponse() {
@@ -39,40 +39,12 @@ public class MoviesFragmentViewModel extends BaseObservable {
     }
 
     public void onRefresh() {
-        getNowPlayingMovies(true);
+        getMovies(true);
     }
 
-    private void getNowPlayingMovies(boolean isRefresh) {
-        moviesServices.getNowPlaying().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GetMoviesList>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+    protected abstract void getMovies(boolean isRefresh);
 
-                    }
-
-                    @Override
-                    public void onNext(GetMoviesList getMoviesList) {
-                        mGetMoviesList = getMoviesList;
-                        MoviesRequestResponse requestResponse = new MoviesRequestResponse(true , getMoviesList, null, isRefresh);
-                        mGetMoviesResponse.onNext(requestResponse);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        handleRequestFailure(e);
-                        MoviesRequestResponse requestResponse = new MoviesRequestResponse(false , null, e, isRefresh);
-                        mGetMoviesResponse.onNext(requestResponse);
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-    }
-
-    private void handleRequestFailure(Throwable t) {
+    protected void handleRequestFailure(Throwable t) {
         // When the Throwable passed to the failure callback is an IOException,
         // this means that it was a network problem (socket timeout, unknown host, etc.).
         // Any other exception means something broke either in serializing/deserializing the data
@@ -84,11 +56,11 @@ public class MoviesFragmentViewModel extends BaseObservable {
         }
     }
 
-    private void handleRequestNetworkError(Throwable t) {
+    protected void handleRequestNetworkError(Throwable t) {
         Log.d("debug3", "handleRequestNetworkError: " + t.getMessage());
     }
 
-    private void handleRequestNonNetworkError(Throwable t) {
+    protected void handleRequestNonNetworkError(Throwable t) {
         Log.d("debug3", "handleRequestNonNetworkError: " + t.getMessage());
     }
 }
