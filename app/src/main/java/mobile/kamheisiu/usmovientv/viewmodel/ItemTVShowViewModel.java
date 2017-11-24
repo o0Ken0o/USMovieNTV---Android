@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.activity.MovieDetailsActivity;
+import mobile.kamheisiu.usmovientv.activity.TVShowDetailsActivity;
 import mobile.kamheisiu.usmovientv.data.model.Movie;
 import mobile.kamheisiu.usmovientv.data.model.TVShow;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
@@ -51,15 +52,11 @@ public class ItemTVShowViewModel extends BaseObservable {
     }
 
     public View.OnClickListener onItemClick() {
-//        return new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext, MovieDetailsActivity.class);
-//                intent.putExtra(MovieDetailsActivity.MOVIE_ID_KEY, mTVShow.getId());
-//                mContext.startActivity(intent);
-//            }
-//        };
-        return null;
+        return v -> {
+            Intent intent = new Intent(mContext, TVShowDetailsActivity.class);
+            intent.putExtra(TVShowDetailsActivity.TV_SHOW_ID_KEY, mTVShow.getId());
+            mContext.startActivity(intent);
+        };
     }
 
     public String getReleaseDate() {
