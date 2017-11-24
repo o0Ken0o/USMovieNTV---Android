@@ -167,6 +167,10 @@ public class MovieDetailsActivityViewModel extends BaseObservable {
 
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String relativeUrl) {
+        if (relativeUrl == null) {
+            view.setImageResource(R.drawable.movietv_clear_bg);
+            return;
+        }
 
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(ApiUtils.IMAGE_BASE_URL)

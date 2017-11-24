@@ -34,7 +34,10 @@ public class ItemTVShowViewModel extends BaseObservable {
 
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String relativeUrl) {
-        Log.d("debug3", "loadImage: " + relativeUrl);
+        if (relativeUrl == null) {
+            view.setImageResource(R.drawable.movietv_clear_bg);
+            return;
+        }
 
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(ApiUtils.IMAGE_BASE_URL)
