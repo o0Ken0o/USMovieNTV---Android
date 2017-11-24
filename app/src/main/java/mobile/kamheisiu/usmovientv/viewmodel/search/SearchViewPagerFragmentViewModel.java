@@ -6,9 +6,16 @@ import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
+import mobile.kamheisiu.usmovientv.data.model.GetTVShowsList;
+import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
+import mobile.kamheisiu.usmovientv.fragment.search.SearchViewPagerFragment;
 
 /**
  * Created by kamheisiu on 24/11/2017.
@@ -16,22 +23,96 @@ import io.reactivex.subjects.BehaviorSubject;
 
 public class SearchViewPagerFragmentViewModel extends BaseObservable {
 
-    private BehaviorSubject<String> searchTxt;
+    private BehaviorSubject<SearchViewPagerFragment.SearchRequest> searchTxt;
+    private BehaviorSubject<GetMoviesList> mGetMoviesList = BehaviorSubject.create();
+    private BehaviorSubject<GetTVShowsList> mGetTVShowsList = BehaviorSubject.create();
     private Context mContext;
 
-    public SearchViewPagerFragmentViewModel(BehaviorSubject<String> searchTxt, Context context) {
+    public SearchViewPagerFragmentViewModel(BehaviorSubject<SearchViewPagerFragment.SearchRequest> searchTxt, Context context) {
         this.searchTxt = searchTxt;
         mContext = context;
         listenToSearchTxt();
     }
 
     private void listenToSearchTxt() {
+        searchTxt.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::search);
+    }
+
+    private void listenToSearchTxtWithDebounce() {
         searchTxt.debounce(300, TimeUnit.MICROSECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::search);
     }
 
-    private void search(String keywords) {
-        Log.d("debug3", "search: " + keywords);
+    private void search(SearchViewPagerFragment.SearchRequest searchRequest) {
+        if (searchRequest.getTabIndex() == 0) {
+            searchMovies(searchRequest.getKeywords());
+        } else {
+            searchTVShows(searchRequest.getKeywords());
+        }
+    }
+
+    private void searchMovies(String keywords) {
+        new ApiUtils().getMoviesServices().searchMovies(keywords)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<GetMoviesList>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetMoviesList getMoviesList) {
+                        mGetMoviesList.onNext(getMoviesList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void searchTVShows(String keywords) {
+        new ApiUtils().getTVShowsServices().searchTVShows(keywords)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<GetTVShowsList>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetTVShowsList getTVShowsList) {
+                        mGetTVShowsList.onNext(getTVShowsList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
+    public BehaviorSubject<GetMoviesList> getGetMoviesList() {
+        return mGetMoviesList;
+    }
+
+    public BehaviorSubject<GetTVShowsList> getGetTVShowsList() {
+        return mGetTVShowsList;
     }
 }
