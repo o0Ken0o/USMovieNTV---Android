@@ -11,9 +11,8 @@ import android.view.MenuItem;
 
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.databinding.ActivityMainBinding;
-import mobile.kamheisiu.usmovientv.fragment.MoviesViewPagerFragment;
-import mobile.kamheisiu.usmovientv.fragment.TVShowsViewPagerFragment;
-import mobile.kamheisiu.usmovientv.fragment.ViewPagerFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.MoviesViewPagerFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.TVShowsViewPagerFragment;
 
 public class MainActivity extends AppCompatActivity {
 

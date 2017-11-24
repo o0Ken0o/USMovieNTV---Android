@@ -1,8 +1,8 @@
-package mobile.kamheisiu.usmovientv.fragment;
+package mobile.kamheisiu.usmovientv.fragment.movies;
 
 import android.os.Bundle;
 
-import mobile.kamheisiu.usmovientv.viewmodel.UpComingMoviesFragmentViewModel;
+import mobile.kamheisiu.usmovientv.viewmodel.movies.UpComingMoviesFragmentViewModel;
 
 /**
  * Created by kamheisiu on 23/11/2017.

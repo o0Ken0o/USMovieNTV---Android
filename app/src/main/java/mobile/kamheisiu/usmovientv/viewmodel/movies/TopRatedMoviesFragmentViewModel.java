@@ -1,4 +1,4 @@
-package mobile.kamheisiu.usmovientv.viewmodel;
+package mobile.kamheisiu.usmovientv.viewmodel.movies;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

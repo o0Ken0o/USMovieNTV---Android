@@ -1,4 +1,4 @@
-package mobile.kamheisiu.usmovientv.viewmodel;
+package mobile.kamheisiu.usmovientv.viewmodel.tvshows;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -11,10 +11,10 @@ import mobile.kamheisiu.usmovientv.data.remote.TVShowsRequestResponse;
  * Created by kamheisiu on 23/11/2017.
  */
 
-public class PopularTVShowsFragmentViewModel extends TVShowsFragmentViewModel {
+public class AiringTodayTVShowsFragmentViewModel extends TVShowsFragmentViewModel {
     @Override
     protected void getTVShows(boolean isRefresh) {
-        mTVShowsServices.getPopular().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        mTVShowsServices.getAiringToday().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GetTVShowsList>() {
                     @Override
                     public void onSubscribe(Disposable d) {

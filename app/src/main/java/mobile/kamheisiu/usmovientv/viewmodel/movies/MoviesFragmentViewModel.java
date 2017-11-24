@@ -1,4 +1,4 @@
-package mobile.kamheisiu.usmovientv.viewmodel;
+package mobile.kamheisiu.usmovientv.viewmodel.movies;
 
 import android.databinding.BaseObservable;
 import android.util.Log;

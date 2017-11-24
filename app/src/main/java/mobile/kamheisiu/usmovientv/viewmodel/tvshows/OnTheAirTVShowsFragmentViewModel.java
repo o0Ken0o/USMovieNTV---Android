@@ -1,22 +1,20 @@
-package mobile.kamheisiu.usmovientv.viewmodel;
+package mobile.kamheisiu.usmovientv.viewmodel.tvshows;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.data.model.GetTVShowsList;
-import mobile.kamheisiu.usmovientv.data.remote.ApiClient;
-import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
 import mobile.kamheisiu.usmovientv.data.remote.TVShowsRequestResponse;
 
 /**
  * Created by kamheisiu on 23/11/2017.
  */
 
-public class AiringTodayTVShowsFragmentViewModel extends TVShowsFragmentViewModel {
+public class OnTheAirTVShowsFragmentViewModel extends TVShowsFragmentViewModel {
     @Override
     protected void getTVShows(boolean isRefresh) {
-        mTVShowsServices.getAiringToday().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        mTVShowsServices.getOnTheAir().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GetTVShowsList>() {
                     @Override
                     public void onSubscribe(Disposable d) {

@@ -1,8 +1,8 @@
-package mobile.kamheisiu.usmovientv.fragment;
+package mobile.kamheisiu.usmovientv.fragment.tvshows;
 
 import android.os.Bundle;
 
-import mobile.kamheisiu.usmovientv.viewmodel.AiringTodayTVShowsFragmentViewModel;
+import mobile.kamheisiu.usmovientv.viewmodel.tvshows.AiringTodayTVShowsFragmentViewModel;
 
 /**
  * Created by kamheisiu on 23/11/2017.

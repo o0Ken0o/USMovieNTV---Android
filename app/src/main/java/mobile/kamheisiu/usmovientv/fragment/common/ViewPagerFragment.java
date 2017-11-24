@@ -1,4 +1,4 @@
-package mobile.kamheisiu.usmovientv.fragment;
+package mobile.kamheisiu.usmovientv.fragment.common;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

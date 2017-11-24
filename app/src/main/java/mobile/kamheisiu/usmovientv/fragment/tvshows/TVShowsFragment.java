@@ -1,4 +1,4 @@
-package mobile.kamheisiu.usmovientv.fragment;
+package mobile.kamheisiu.usmovientv.fragment.tvshows;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,25 +16,25 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.adapter.MoviesFragmentAdapter;
-import mobile.kamheisiu.usmovientv.data.model.Movie;
-import mobile.kamheisiu.usmovientv.data.remote.MoviesRequestResponse;
-import mobile.kamheisiu.usmovientv.databinding.FragmentMoviesBinding;
-import mobile.kamheisiu.usmovientv.viewmodel.MoviesFragmentViewModel;
+import mobile.kamheisiu.usmovientv.adapter.TVShowsFragmentAdapter;
+import mobile.kamheisiu.usmovientv.data.model.TVShow;
+import mobile.kamheisiu.usmovientv.data.remote.TVShowsRequestResponse;
+import mobile.kamheisiu.usmovientv.databinding.FragmentTvShowsBinding;
+import mobile.kamheisiu.usmovientv.viewmodel.tvshows.TVShowsFragmentViewModel;
 
 /**
  * Created by kamheisiu on 11/11/2017.
  */
 
-public abstract class MoviesFragment extends Fragment {
+public abstract class TVShowsFragment extends Fragment {
 
-    public static final String TAG = "MoviesFragment";
+    public static final String TAG = "TVShowsFragment";
     public static final String TITLE_KEY = "TITLE_KEY";
 
-    private FragmentMoviesBinding binding;
+    private FragmentTvShowsBinding binding;
     private String title;
 
-    protected MoviesFragmentViewModel mMoviesFragmentViewModel;
+    protected TVShowsFragmentViewModel mTVShowsFragmentViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public abstract class MoviesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_shows, container, false);
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> { onRefresh(); });
 
@@ -64,7 +64,7 @@ public abstract class MoviesFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (mMoviesFragmentViewModel.getCurrentGetMoviesList() == null) {
+        if (mTVShowsFragmentViewModel.getCurrentTVShowsList() == null) {
             showSpinnerOnly();
             subscribeToGetMoviesResponse(true);
         }
@@ -74,7 +74,7 @@ public abstract class MoviesFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        mMoviesFragmentViewModel.getGetMoviesResponse().unsubscribeOn(Schedulers.io());
+        mTVShowsFragmentViewModel.getTVShowsRequestResponse().unsubscribeOn(Schedulers.io());
     }
 
     private void showHideComponents(boolean ifSpinnerVisible, boolean ifErrorMsgVisible, boolean ifRecyclerViewVisible) {
@@ -88,27 +88,27 @@ public abstract class MoviesFragment extends Fragment {
     }
 
     private void subscribeToGetMoviesResponse(boolean isCreateNewVM) {
-        Consumer<MoviesRequestResponse> onNext = moviesRequestResponse -> { onReceiveResponse(moviesRequestResponse); };
+        Consumer<TVShowsRequestResponse> onNext = tvShowsRequestResponse -> { onReceiveResponse(tvShowsRequestResponse); };
 
         if (isCreateNewVM) {
             initViewModel();
         }
 
-        mMoviesFragmentViewModel.getGetMoviesResponse()
+        mTVShowsFragmentViewModel.getTVShowsRequestResponse()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext);
     }
 
-    private void onReceiveResponse(MoviesRequestResponse response) {
+    private void onReceiveResponse(TVShowsRequestResponse response) {
         binding.spinnerLoader.setVisibility(View.INVISIBLE);
         binding.swipeRefreshLayout.setEnabled(true);
 
         if (response.isSuccessful()) {
-            showMoviesList(response.getGetMoviesList().getMovies());
+            showTVShowsList(response.getGetTVShowsList().getTVShows());
         } else {
 
-            if (response.isRefresh() && mMoviesFragmentViewModel.getCurrentGetMoviesList() != null) {
+            if (response.isRefresh() && mTVShowsFragmentViewModel.getCurrentTVShowsList() != null) {
                 // we are already displaying a list
                 showHideComponents(false, false, true);
                 Toast.makeText(this.getContext(), getString(R.string.restful_call_try_again), Toast.LENGTH_SHORT).show();
@@ -118,22 +118,22 @@ public abstract class MoviesFragment extends Fragment {
         }
     }
 
-    private void showMoviesList(List<Movie> movies) {
-        MoviesFragmentAdapter adapter = new MoviesFragmentAdapter(this.getContext(), movies);
+    private void showTVShowsList(List<TVShow> tvShows) {
+        TVShowsFragmentAdapter adapter = new TVShowsFragmentAdapter(getContext(), tvShows);
         binding.recyclerView.setAdapter(adapter);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
 
         showHideComponents(false, false, true);
     }
 
     private void onRefresh() {
-        mMoviesFragmentViewModel.getGetMoviesResponse().unsubscribeOn(Schedulers.io());
+        mTVShowsFragmentViewModel.getTVShowsRequestResponse().unsubscribeOn(Schedulers.io());
 
         binding.swipeRefreshLayout.setRefreshing(false);
         binding.swipeRefreshLayout.setEnabled(false);
-        mMoviesFragmentViewModel.onRefresh();
+        mTVShowsFragmentViewModel.onRefresh();
 
         showSpinnerOnly();
         subscribeToGetMoviesResponse(false);

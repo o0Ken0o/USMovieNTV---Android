@@ -1,4 +1,4 @@
-package mobile.kamheisiu.usmovientv.viewmodel;
+package mobile.kamheisiu.usmovientv.viewmodel.movies;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -11,10 +11,10 @@ import mobile.kamheisiu.usmovientv.data.remote.MoviesRequestResponse;
  * Created by kamheisiu on 23/11/2017.
  */
 
-public class UpComingMoviesFragmentViewModel extends MoviesFragmentViewModel {
+public class PopularMoviesFragmentViewModel extends MoviesFragmentViewModel {
     @Override
     protected void getMovies(boolean isRefresh) {
-        moviesServices.getUpComing().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        moviesServices.getPopular().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<GetMoviesList>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -40,6 +40,5 @@ public class UpComingMoviesFragmentViewModel extends MoviesFragmentViewModel {
 
                     }
                 });
-
     }
 }

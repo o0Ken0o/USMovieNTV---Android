@@ -1,9 +1,10 @@
-package mobile.kamheisiu.usmovientv.viewmodel;
+package mobile.kamheisiu.usmovientv.viewmodel.movies;
 
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,22 +14,22 @@ import com.bumptech.glide.request.RequestOptions;
 
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.activity.MovieDetailsActivity;
-import mobile.kamheisiu.usmovientv.activity.TVShowDetailsActivity;
 import mobile.kamheisiu.usmovientv.data.model.Movie;
-import mobile.kamheisiu.usmovientv.data.model.TVShow;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
 
+import static mobile.kamheisiu.usmovientv.data.remote.ApiUtils.IMAGE_BASE_URL;
+
 /**
- * Created by kamheisiu on 23/11/2017.
+ * Created by kamheisiu on 12/11/2017.
  */
 
-public class ItemTVShowViewModel extends BaseObservable {
+public class ItemMovieViewModel extends BaseObservable {
 
-    private TVShow mTVShow;
+    private Movie mMovie;
     private Context mContext;
 
-    public ItemTVShowViewModel(TVShow tvShow, Context context) {
-        mTVShow = tvShow;
+    public ItemMovieViewModel(Movie movie, Context context) {
+        mMovie = movie;
         mContext = context;
     }
 
@@ -47,30 +48,30 @@ public class ItemTVShowViewModel extends BaseObservable {
         Glide.with(view.getContext())
                 .load(urlBuilder.toString())
                 .apply(new RequestOptions()
-                        .placeholder(R.drawable.movietv_clear_bg)
-                        .centerCrop()
-                        .dontAnimate()
-                        .dontTransform())
+                    .placeholder(R.drawable.movietv_clear_bg)
+                    .centerCrop()
+                    .dontAnimate()
+                    .dontTransform())
                 .into(view);
     }
 
     public View.OnClickListener onItemClick() {
         return v -> {
-            Intent intent = new Intent(mContext, TVShowDetailsActivity.class);
-            intent.putExtra(TVShowDetailsActivity.TV_SHOW_ID_KEY, mTVShow.getId());
+            Intent intent = new Intent(mContext, MovieDetailsActivity.class);
+            intent.putExtra(MovieDetailsActivity.MOVIE_ID_KEY, mMovie.getId());
             mContext.startActivity(intent);
         };
     }
 
     public String getReleaseDate() {
-        return mTVShow.getFirstAirDate();
+        return mMovie.getReleaseDate();
     }
 
     public String getPosterUrl() {
-        return mTVShow.getPosterPath();
+        return mMovie.getPosterPath();
     }
 
     public String getPopularity() {
-        return String.format("%.2f", mTVShow.getPopularity());
+        return String.format("%.2f", mMovie.getPopularity());
     }
 }

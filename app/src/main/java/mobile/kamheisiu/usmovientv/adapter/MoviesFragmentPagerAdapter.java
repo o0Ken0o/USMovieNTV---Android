@@ -6,11 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.fragment.MoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.NowPlayingMoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.PopularMoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.TopRatedMoviesFragment;
-import mobile.kamheisiu.usmovientv.fragment.UpComingMoviesFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.MoviesFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.NowPlayingMoviesFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.PopularMoviesFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.TopRatedMoviesFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.UpComingMoviesFragment;
 
 /**
  * Created by kamheisiu on 11/11/2017.

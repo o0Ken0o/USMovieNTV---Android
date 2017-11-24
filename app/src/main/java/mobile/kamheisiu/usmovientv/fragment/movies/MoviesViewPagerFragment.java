@@ -1,8 +1,9 @@
-package mobile.kamheisiu.usmovientv.fragment;
+package mobile.kamheisiu.usmovientv.fragment.movies;
 
 import android.support.v4.app.FragmentPagerAdapter;
 
 import mobile.kamheisiu.usmovientv.adapter.MoviesFragmentPagerAdapter;
+import mobile.kamheisiu.usmovientv.fragment.common.ViewPagerFragment;
 
 /**
  * Created by kamheisiu on 23/11/2017.

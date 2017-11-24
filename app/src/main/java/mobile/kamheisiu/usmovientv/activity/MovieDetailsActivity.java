@@ -4,20 +4,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.data.model.MovieDetails;
-import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
-import mobile.kamheisiu.usmovientv.data.remote.MoviesServices;
 import mobile.kamheisiu.usmovientv.databinding.ActivityMovieDetailsBinding;
-import mobile.kamheisiu.usmovientv.viewmodel.MovieDetailsActivityViewModel;
+import mobile.kamheisiu.usmovientv.viewmodel.movies.MovieDetailsActivityViewModel;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
