@@ -23,4 +23,21 @@
     <string name="movie_details_countries">Countries:</string>
     <string name="movie_details_release_date">Release Date:</string>
     <string name="movie_details_runtime">Runtime:</string>
+    
+    <!-- the details of a tv show -->
+    <string name="tv_show_details_title">Title:</string>
+    <string name="tv_show_details_genres">Genres:</string>
+    <string name="tv_show_details_languages">Languages:</string>
+    <string name="tv_show_details_created_by">Created By:</string>
+    <string name="tv_show_details_no_of_seasons">No Of Seasons:</string>
+    <string name="tv_show_details_no_of_episodes">No Of Episodes:</string>
+    <string name="tv_show_details_run_time">Run time:</string>
+    <string name="tv_show_details_overview">Overview:</string>
+
+
+    <!-- tvShow view pager tab items -->
+    <string name="tv_shows_view_pager_airing_today">Airing Today</string>
+    <string name="tv_shows_view_pager_on_the_air">On The Air</string>
+    <string name="tv_shows_view_pager_popular">Popular</string>
+    <string name="tv_shows_view_pager_top_rated">Top Rated</string>
 </resources>
