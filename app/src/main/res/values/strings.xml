@@ -23,7 +23,7 @@
     <string name="movie_details_countries">Countries:</string>
     <string name="movie_details_release_date">Release Date:</string>
     <string name="movie_details_runtime">Runtime:</string>
-    
+
     <!-- the details of a tv show -->
     <string name="tv_show_details_title">Title:</string>
     <string name="tv_show_details_genres">Genres:</string>
