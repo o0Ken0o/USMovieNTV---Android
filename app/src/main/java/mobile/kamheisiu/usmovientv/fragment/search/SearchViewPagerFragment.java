@@ -91,6 +91,8 @@ public class SearchViewPagerFragment extends Fragment {
                 return true;
             }
         });
+
+        binding.searchView.onActionViewExpanded();
     }
 
     private void setupTabLayout() {
