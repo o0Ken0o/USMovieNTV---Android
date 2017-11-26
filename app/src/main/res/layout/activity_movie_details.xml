@@ -7,7 +7,7 @@
 
         <variable
             name="mdavm"
-            type="mobile.kamheisiu.usmovientv.viewmodel.MovieDetailsActivityViewModel"/>
+            type="mobile.kamheisiu.usmovientv.viewmodel.movies.MovieDetailsActivityViewModel"/>
     </data>
 
     <RelativeLayout

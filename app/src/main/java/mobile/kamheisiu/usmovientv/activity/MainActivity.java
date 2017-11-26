@@ -11,15 +11,16 @@ import android.view.MenuItem;
 
 import mobile.kamheisiu.usmovientv.R;
 import mobile.kamheisiu.usmovientv.databinding.ActivityMainBinding;
-import mobile.kamheisiu.usmovientv.fragment.MoviesViewPagerFragment;
-import mobile.kamheisiu.usmovientv.fragment.TVShowsViewPagerFragment;
-import mobile.kamheisiu.usmovientv.fragment.ViewPagerFragment;
+import mobile.kamheisiu.usmovientv.fragment.movies.MoviesViewPagerFragment;
+import mobile.kamheisiu.usmovientv.fragment.search.SearchViewPagerFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.TVShowsViewPagerFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     public static final String MOVIES_VIEW_PAGER_FRAGMENT = "MOVIES_VIEW_PAGER_FRAGMENT";
     public static final String TV_SHOWS_VIEW_PAGER_FRAGMENT = "TV_SHOWS_VIEW_PAGER_FRAGMENT";
+    public static final String SEARCH_VIEW_PAGER_FRAGMENT = "SEARCH_VIEW_PAGER_FRAGMENT";
     private FragmentManager mFragmentManager;
     private ActivityMainBinding binding;
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 addTVShowsViewPager();
                 break;
             case R.id.menu_item_search:
-                Log.d(TAG, "onNavigationItemSelected menu_item_search");
+                addSearchViewPager();
                 break;
         }
 
@@ -84,6 +85,22 @@ public class MainActivity extends AppCompatActivity {
             fragment = new TVShowsViewPagerFragment();
             fragmentTransaction.add(R.id.container_view, fragment, TV_SHOWS_VIEW_PAGER_FRAGMENT)
                     .addToBackStack(TV_SHOWS_VIEW_PAGER_FRAGMENT)
+                    .commit();
+        } else {
+            hideAllFragment(fragmentTransaction);
+            fragmentTransaction.show(fragment).commit();
+        }
+    }
+
+    private void addSearchViewPager() {
+        Log.d(TAG, "onNavigationItemSelected menu_item_search");
+
+        SearchViewPagerFragment fragment = (SearchViewPagerFragment) mFragmentManager.findFragmentByTag(SEARCH_VIEW_PAGER_FRAGMENT);
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        if (fragment == null) {
+            fragment = new SearchViewPagerFragment();
+            fragmentTransaction.add(R.id.container_view, fragment, SEARCH_VIEW_PAGER_FRAGMENT)
+                    .addToBackStack(SEARCH_VIEW_PAGER_FRAGMENT)
                     .commit();
         } else {
             hideAllFragment(fragmentTransaction);

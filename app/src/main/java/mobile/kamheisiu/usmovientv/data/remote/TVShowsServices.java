@@ -7,6 +7,7 @@ import mobile.kamheisiu.usmovientv.data.model.MovieDetails;
 import mobile.kamheisiu.usmovientv.data.model.TVShowDetails;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by kamheisiu on 23/11/2017.
@@ -27,4 +28,7 @@ public interface TVShowsServices {
 
     @GET("tv/{id}")
     Observable<TVShowDetails> getTVShowDetails(@Path("id") int tvShowId);
+
+    @GET("search/tv")
+    Observable<GetTVShowsList> searchTVShows(@Query("query") String keywords);
 }

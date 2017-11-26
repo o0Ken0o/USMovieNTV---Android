@@ -6,7 +6,7 @@
     <data>
         <variable
             name="tvshowdetailsvm"
-            type="mobile.kamheisiu.usmovientv.viewmodel.TVShowDetailsActivityViewModel" />
+            type="mobile.kamheisiu.usmovientv.viewmodel.tvshows.TVShowDetailsActivityViewModel" />
     </data>
 
     <RelativeLayout

@@ -7,9 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.data.model.TVShowDetails;
 import mobile.kamheisiu.usmovientv.databinding.ActivityTvshowDetailsBinding;
-import mobile.kamheisiu.usmovientv.viewmodel.TVShowDetailsActivityViewModel;
+import mobile.kamheisiu.usmovientv.viewmodel.tvshows.TVShowDetailsActivityViewModel;
 
 public class TVShowDetailsActivity extends AppCompatActivity {
 

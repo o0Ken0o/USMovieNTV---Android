@@ -7,7 +7,7 @@
 
         <variable
             name="tvshowvm"
-            type="mobile.kamheisiu.usmovientv.viewmodel.ItemTVShowViewModel"/>
+            type="mobile.kamheisiu.usmovientv.viewmodel.tvshows.ItemTVShowViewModel"/>
     </data>
 
     <RelativeLayout

@@ -6,11 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.fragment.AiringTodayTVShowsFragment;
-import mobile.kamheisiu.usmovientv.fragment.OnTheAirTVShowsFragment;
-import mobile.kamheisiu.usmovientv.fragment.PopularTVShowsFragment;
-import mobile.kamheisiu.usmovientv.fragment.TVShowsFragment;
-import mobile.kamheisiu.usmovientv.fragment.TopRatedTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.AiringTodayTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.OnTheAirTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.PopularTVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.TVShowsFragment;
+import mobile.kamheisiu.usmovientv.fragment.tvshows.TopRatedTVShowsFragment;
 
 /**
  * Created by kamheisiu on 23/11/2017.

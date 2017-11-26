@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import mobile.kamheisiu.usmovientv.R;
-import mobile.kamheisiu.usmovientv.data.model.Movie;
 import mobile.kamheisiu.usmovientv.data.model.TVShow;
-import mobile.kamheisiu.usmovientv.databinding.MovieItemBinding;
 import mobile.kamheisiu.usmovientv.databinding.TvShowItemBinding;
-import mobile.kamheisiu.usmovientv.viewmodel.ItemMovieViewModel;
-import mobile.kamheisiu.usmovientv.viewmodel.ItemTVShowViewModel;
+import mobile.kamheisiu.usmovientv.viewmodel.tvshows.ItemTVShowViewModel;
 
 /**
  * Created by kamheisiu on 23/11/2017.
