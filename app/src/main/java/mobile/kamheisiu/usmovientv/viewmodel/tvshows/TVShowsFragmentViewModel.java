@@ -53,10 +53,8 @@ public abstract class TVShowsFragmentViewModel extends BaseObservable {
     }
 
     protected void handleRequestNetworkError(Throwable t) {
-        Log.d("debug3", "handleRequestNetworkError: " + t.getMessage());
     }
 
     protected void handleRequestNonNetworkError(Throwable t) {
-        Log.d("debug3", "handleRequestNonNetworkError: " + t.getMessage());
     }
 }

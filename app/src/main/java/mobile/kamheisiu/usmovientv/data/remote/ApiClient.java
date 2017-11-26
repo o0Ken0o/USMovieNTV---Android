@@ -25,7 +25,6 @@ public class ApiClient {
 
     private static void postResponseHandling(Response response) {
         if (!response.isSuccessful()) {
-            Log.d("debug3", "postResponseHandling: ");
         }
     }
 

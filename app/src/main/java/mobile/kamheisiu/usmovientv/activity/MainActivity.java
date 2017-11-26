@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addMoviesViewPager() {
-        Log.d(TAG, "onNavigationItemSelected menu_item_movies");
-
         MoviesViewPagerFragment fragment = (MoviesViewPagerFragment) mFragmentManager.findFragmentByTag(MOVIES_VIEW_PAGER_FRAGMENT);
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (fragment == null) {
@@ -77,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addTVShowsViewPager() {
-        Log.d(TAG, "onNavigationItemSelected menu_item_tv_shows");
-
         TVShowsViewPagerFragment fragment = (TVShowsViewPagerFragment) mFragmentManager.findFragmentByTag(TV_SHOWS_VIEW_PAGER_FRAGMENT);
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (fragment == null) {
@@ -93,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addSearchViewPager() {
-        Log.d(TAG, "onNavigationItemSelected menu_item_search");
-
         SearchViewPagerFragment fragment = (SearchViewPagerFragment) mFragmentManager.findFragmentByTag(SEARCH_VIEW_PAGER_FRAGMENT);
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (fragment == null) {

@@ -21,11 +21,9 @@ public class CallBackWithLogging<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        Log.d("debug3", "from parent onResponse: " + call.getClass());
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        Log.d("debug3", "from parent onFailure: ");
     }
 }
