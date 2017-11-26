@@ -15,6 +15,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
 import mobile.kamheisiu.usmovientv.data.model.GetTVShowsList;
 import mobile.kamheisiu.usmovientv.data.remote.ApiUtils;
+import mobile.kamheisiu.usmovientv.data.remote.SearchRequest;
 import mobile.kamheisiu.usmovientv.fragment.search.SearchViewPagerFragment;
 
 /**
@@ -23,12 +24,12 @@ import mobile.kamheisiu.usmovientv.fragment.search.SearchViewPagerFragment;
 
 public class SearchViewPagerFragmentViewModel extends BaseObservable {
 
-    private BehaviorSubject<SearchViewPagerFragment.SearchRequest> searchTxt;
+    private BehaviorSubject<SearchRequest> searchTxt;
     private BehaviorSubject<GetMoviesList> mGetMoviesList = BehaviorSubject.create();
     private BehaviorSubject<GetTVShowsList> mGetTVShowsList = BehaviorSubject.create();
     private Context mContext;
 
-    public SearchViewPagerFragmentViewModel(BehaviorSubject<SearchViewPagerFragment.SearchRequest> searchTxt, Context context) {
+    public SearchViewPagerFragmentViewModel(BehaviorSubject<SearchRequest> searchTxt, Context context) {
         this.searchTxt = searchTxt;
         mContext = context;
         listenToSearchTxt();
@@ -45,7 +46,7 @@ public class SearchViewPagerFragmentViewModel extends BaseObservable {
                 .subscribe(this::search);
     }
 
-    private void search(SearchViewPagerFragment.SearchRequest searchRequest) {
+    private void search(SearchRequest searchRequest) {
         if (searchRequest.getTabIndex() == 0) {
             searchMovies(searchRequest.getKeywords());
         } else {
@@ -114,5 +115,10 @@ public class SearchViewPagerFragmentViewModel extends BaseObservable {
 
     public BehaviorSubject<GetTVShowsList> getGetTVShowsList() {
         return mGetTVShowsList;
+    }
+
+    public void onTabSelected(int position, String keywords) {
+        SearchRequest request = new SearchRequest(keywords, position);
+        search(request);
     }
 }

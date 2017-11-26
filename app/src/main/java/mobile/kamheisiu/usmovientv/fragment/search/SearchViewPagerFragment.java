@@ -23,6 +23,7 @@ import mobile.kamheisiu.usmovientv.adapter.MoviesFragmentAdapter;
 import mobile.kamheisiu.usmovientv.adapter.TVShowsFragmentAdapter;
 import mobile.kamheisiu.usmovientv.data.model.GetMoviesList;
 import mobile.kamheisiu.usmovientv.data.model.GetTVShowsList;
+import mobile.kamheisiu.usmovientv.data.remote.SearchRequest;
 import mobile.kamheisiu.usmovientv.databinding.FragmentSearchBinding;
 import mobile.kamheisiu.usmovientv.viewmodel.search.SearchViewPagerFragmentViewModel;
 
@@ -31,24 +32,6 @@ import mobile.kamheisiu.usmovientv.viewmodel.search.SearchViewPagerFragmentViewM
  */
 
 public class SearchViewPagerFragment extends Fragment {
-
-    public class SearchRequest {
-        String keywords;
-        int tabIndex;
-
-        public SearchRequest(String keywords, int tabIndex) {
-            this.keywords = keywords;
-            this.tabIndex = tabIndex;
-        }
-
-        public String getKeywords() {
-            return keywords;
-        }
-
-        public int getTabIndex() {
-            return tabIndex;
-        }
-    }
 
     private FragmentSearchBinding binding;
     private BehaviorSubject<SearchRequest> searchRequest;
@@ -80,7 +63,12 @@ public class SearchViewPagerFragment extends Fragment {
         super.onPause();
 
         searchRequest.onComplete();
+        unSubscribe();
+    }
+
+    private void unSubscribe() {
         viewModel.getGetMoviesList().unsubscribeOn(Schedulers.io());
+        viewModel.getGetTVShowsList().unsubscribeOn(Schedulers.io());
     }
 
     private void hideKeyboard(View view) {
@@ -124,7 +112,7 @@ public class SearchViewPagerFragment extends Fragment {
     }
 
     private void onTabSelected(TabLayout.Tab tab) {
-
+        viewModel.onTabSelected(tab.getPosition(), binding.searchView.getQuery().toString());
     }
 
     private void setupDataListener() {
